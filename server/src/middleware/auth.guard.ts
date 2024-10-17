@@ -18,7 +18,8 @@ import { UAParser } from 'ua-parser-js';
 
 type AdminRoute = { admin?: true };
 type SharedLinkRoute = { sharedLink?: true };
-type AuthenticatedOptions = { permission?: Permission } & (AdminRoute | SharedLinkRoute);
+type EsekShareRoute = { esekShare?: true};
+type AuthenticatedOptions = { permission?: Permission } & (AdminRoute | SharedLinkRoute) & EsekShareRoute;
 
 export const Authenticated = (options?: AuthenticatedOptions): MethodDecorator => {
   const decorators: MethodDecorator[] = [
@@ -31,6 +32,8 @@ export const Authenticated = (options?: AuthenticatedOptions): MethodDecorator =
   if ((options as SharedLinkRoute)?.sharedLink) {
     decorators.push(ApiQuery({ name: ImmichQuery.SHARED_LINK_KEY, type: String, required: false }));
   }
+
+  // TODO: evaluate if needed
 
   return applyDecorators(...decorators);
 };
@@ -85,14 +88,15 @@ export class AuthGuard implements CanActivate {
     const {
       admin: adminRoute,
       sharedLink: sharedLinkRoute,
+      esekShare: esekShareRoute,
       permission,
-    } = { sharedLink: false, admin: false, ...options };
+    } = { sharedLink: false, esekShare: false, admin: false, ...options };
     const request = context.switchToHttp().getRequest<AuthRequest>();
 
     request.user = await this.authService.authenticate({
       headers: request.headers,
       queryParams: request.query as Record<string, string>,
-      metadata: { adminRoute, sharedLinkRoute, permission, uri: request.path },
+      metadata: { adminRoute, esekShareRoute, sharedLinkRoute, permission, uri: request.path },
     });
 
     return true;

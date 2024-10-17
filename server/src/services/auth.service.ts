@@ -45,6 +45,7 @@ export type ValidateRequest = {
   headers: IncomingHttpHeaders;
   queryParams: Record<string, string>;
   metadata: {
+    esekShareRoute: boolean;
     sharedLinkRoute: boolean;
     adminRoute: boolean;
     permission?: Permission;
@@ -173,6 +174,8 @@ export class AuthService extends BaseService {
     if (apiKey) {
       return this.validateApiKey(apiKey);
     }
+
+    
 
     throw new UnauthorizedException('Authentication required');
   }
@@ -319,6 +322,7 @@ export class AuthService extends BaseService {
     const hashedKey = this.cryptoRepository.hashSha256(key);
     const apiKey = await this.keyRepository.getKey(hashedKey);
     if (apiKey?.user) {
+      console.log(`apiKey.user ${JSON.stringify(apiKey.user)}`)
       return { user: apiKey.user, apiKey };
     }
 

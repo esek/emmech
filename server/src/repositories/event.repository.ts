@@ -117,7 +117,7 @@ export class EventRepository implements OnGatewayConnection, OnGatewayDisconnect
       const auth = await this.moduleRef.get(AuthService).authenticate({
         headers: client.request.headers,
         queryParams: {},
-        metadata: { adminRoute: false, sharedLinkRoute: false, uri: '/api/socket.io' },
+        metadata: { adminRoute: false, sharedLinkRoute: false, esekShareRoute: true, uri: '/api/socket.io' },
       });
       await client.join(auth.user.id);
       if (auth.session) {

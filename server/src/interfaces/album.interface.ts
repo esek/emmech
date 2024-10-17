@@ -22,6 +22,7 @@ export interface IAlbumRepository extends IBulkAsset {
   getOwned(ownerId: string): Promise<AlbumEntity[]>;
   getShared(ownerId: string): Promise<AlbumEntity[]>;
   getNotShared(ownerId: string): Promise<AlbumEntity[]>;
+  getEsekShared(): Promise<AlbumEntity[]>;
   restoreAll(userId: string): Promise<void>;
   softDeleteAll(userId: string): Promise<void>;
   deleteAll(userId: string): Promise<void>;

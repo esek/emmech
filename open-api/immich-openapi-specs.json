@@ -581,6 +581,14 @@
             }
           },
           {
+            "name": "esekShared",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
             "name": "shared",
             "required": false,
             "in": "query",

@@ -86,6 +86,9 @@ export class GetAlbumsDto {
    */
   shared?: boolean;
 
+  @ValidateBoolean({optional: true})
+  esekShared?: boolean;
+
   /**
    * Only returns albums that contain the asset
    * Ignores the shared parameter

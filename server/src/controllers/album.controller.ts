@@ -25,6 +25,7 @@ export class AlbumController {
   @Get()
   @Authenticated({ permission: Permission.ALBUM_READ })
   getAllAlbums(@Auth() auth: AuthDto, @Query() query: GetAlbumsDto): Promise<AlbumResponseDto[]> {
+    console.log(query)
     return this.service.getAll(auth, query);
   }
 

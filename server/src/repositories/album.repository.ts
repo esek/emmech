@@ -130,6 +130,20 @@ export class AlbumRepository implements IAlbumRepository {
   }
 
   /**
+   * Get albums shared with and shared by owner.
+   */
+  @GenerateSql({ params: [DummyValue.UUID] })
+  async getEsekShared(): Promise<AlbumEntity[]> {
+    const albums = await this.repository.find({
+      relations: { albumUsers: { user: true }, sharedLinks: true, owner: true },
+      where: { esekShared: true },
+      order: { createdAt: 'DESC' },
+    });
+
+    return albums.map((album) => withoutDeletedUsers(album));
+  }
+
+  /**
    * Get albums of owner that are _not_ shared
    */
   @GenerateSql({ params: [DummyValue.UUID] })
