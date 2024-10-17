@@ -110,6 +110,7 @@ export enum AlbumFilter {
   All = 'All',
   Owned = 'Owned',
   Shared = 'Shared',
+  EsekShared = 'EsekShared',
 }
 
 export enum AlbumGroupBy {

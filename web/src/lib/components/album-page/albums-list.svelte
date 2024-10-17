@@ -41,6 +41,7 @@
 
   export let ownedAlbums: AlbumResponseDto[] = [];
   export let sharedAlbums: AlbumResponseDto[] = [];
+  export let esekSharedAlbums: AlbumResponseDto[] = [];
   export let searchQuery: string = '';
   export let userSettings: AlbumViewSettings;
   export let allowEdit = false;
@@ -145,8 +146,13 @@
         albums = sharedAlbums;
         break;
       }
+      case AlbumFilter.EsekShared: {
+        albums = esekSharedAlbums;
+        break;
+      }
       default: {
         const userId = $user.id;
+        // TODO might not see all that should be seen?
         const nonOwnedAlbums = sharedAlbums.filter((album) => album.ownerId !== userId);
         albums = nonOwnedAlbums.length > 0 ? ownedAlbums.concat(nonOwnedAlbums) : ownedAlbums;
       }
@@ -230,6 +236,7 @@
 
     ownedAlbums = ownedAlbums.filter(({ id }) => id !== albumToDelete.id);
     sharedAlbums = sharedAlbums.filter(({ id }) => id !== albumToDelete.id);
+    esekSharedAlbums = esekSharedAlbums.filter(({ id }) => id !== albumToDelete.id);
   };
 
   const setAlbumToDelete = async () => {
@@ -274,6 +281,7 @@
   const updateAlbumInfo = (album: AlbumResponseDto) => {
     ownedAlbums[ownedAlbums.findIndex(({ id }) => id === album.id)] = album;
     sharedAlbums[sharedAlbums.findIndex(({ id }) => id === album.id)] = album;
+    esekSharedAlbums[esekSharedAlbums.findIndex(({ id }) => id === album.id)] = album;
   };
 
   const successEditAlbumInfo = (album: AlbumResponseDto) => {

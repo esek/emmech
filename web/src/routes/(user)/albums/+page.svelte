@@ -38,6 +38,7 @@
   <Albums
     ownedAlbums={data.albums}
     sharedAlbums={data.sharedAlbums}
+    esekSharedAlbums={data.esekSharedAlbums}
     userSettings={$albumViewSettings}
     allowEdit
     {searchQuery}

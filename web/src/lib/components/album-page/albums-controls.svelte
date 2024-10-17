@@ -103,6 +103,7 @@
       [AlbumFilter.All]: $t('all'),
       [AlbumFilter.Owned]: $t('owned'),
       [AlbumFilter.Shared]: $t('shared'),
+      [AlbumFilter.EsekShared]: 'esek', //TODO
     };
   })();
 
