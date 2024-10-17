@@ -284,6 +284,7 @@ export type AlbumResponseDto = {
     createdAt: string;
     description: string;
     endDate?: string;
+    esekShared: boolean;
     hasSharedLink: boolean;
     id: string;
     isActivityEnabled: boolean;
@@ -314,6 +315,7 @@ export type UpdateAlbumDto = {
     albumName?: string;
     albumThumbnailAssetId?: string;
     description?: string;
+    esekShared?: boolean;
     isActivityEnabled?: boolean;
     order?: AssetOrder;
 };

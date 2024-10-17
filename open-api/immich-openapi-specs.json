@@ -7624,6 +7624,9 @@
             "format": "date-time",
             "type": "string"
           },
+          "esekShared": {
+            "type": "boolean"
+          },
           "hasSharedLink": {
             "type": "boolean"
           },
@@ -7666,6 +7669,7 @@
           "assets",
           "createdAt",
           "description",
+          "esekShared",
           "hasSharedLink",
           "id",
           "isActivityEnabled",
@@ -12398,6 +12402,9 @@
           },
           "description": {
             "type": "string"
+          },
+          "esekShared": {
+            "type": "boolean"
           },
           "isActivityEnabled": {
             "type": "boolean"

@@ -5,6 +5,7 @@
   import AlbumCover from '$lib/components/album-page/album-cover.svelte';
   import FullScreenModal from '$lib/components/shared-components/full-screen-modal.svelte';
   import { t } from 'svelte-i18n';
+  import Checkbox from '$lib/components/elements/checkbox.svelte';
 
   export let album: AlbumResponseDto;
   export let onEditSuccess: ((album: AlbumResponseDto) => unknown) | undefined = undefined;
@@ -13,6 +14,7 @@
 
   let albumName = album.albumName;
   let description = album.description;
+  let esekShared = album.esekShared;
 
   let isSubmitting = false;
 
@@ -24,6 +26,7 @@
         updateAlbumDto: {
           albumName,
           description,
+          esekShared,
         },
       });
       album.albumName = albumName;
@@ -53,6 +56,9 @@
         <div class="m-4 flex flex-col gap-2">
           <label class="immich-form-label" for="description">{$t('description')}</label>
           <textarea class="immich-form-input" id="description" bind:value={description} />
+        </div>
+        <div class="m-4">
+          <Checkbox bind:checked={esekShared} label="esekShared" id="esekShared-input"></Checkbox>
         </div>
       </div>
     </div>

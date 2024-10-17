@@ -71,6 +71,9 @@ export class UpdateAlbumDto {
   @ValidateBoolean({ optional: true })
   isActivityEnabled?: boolean;
 
+  @ValidateBoolean({optional: false})
+  esekShared?: boolean;
+
   @IsEnum(AssetOrder)
   @Optional()
   @ApiProperty({ enum: AssetOrder, enumName: 'AssetOrder' })
@@ -130,6 +133,7 @@ export class AlbumResponseDto {
   updatedAt!: Date;
   albumThumbnailAssetId!: string | null;
   shared!: boolean;
+  esekShared!: boolean;
   albumUsers!: AlbumUserResponseDto[];
   hasSharedLink!: boolean;
   assets!: AssetResponseDto[];
@@ -185,6 +189,7 @@ export const mapAlbum = (entity: AlbumEntity, withAssets: boolean, auth?: AuthDt
     owner: mapUser(entity.owner),
     albumUsers: albumUsersSorted,
     shared: hasSharedUser || hasSharedLink,
+    esekShared: entity.esekShared,
     hasSharedLink,
     startDate,
     endDate,

@@ -384,7 +384,6 @@
     <MenuOption icon={mdiDeleteOutline} text={$t('delete')} onClick={() => setAlbumToDelete()} />
   {/if}
 </RightClickContextMenu>
-
 {#if allowEdit}
   <!-- Edit Modal -->
   {#if albumToEdit}

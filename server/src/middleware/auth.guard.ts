@@ -88,15 +88,15 @@ export class AuthGuard implements CanActivate {
     const {
       admin: adminRoute,
       sharedLink: sharedLinkRoute,
-      esekShare: esekShareRoute,
+      esekShared: esekSharedRoute,
       permission,
-    } = { sharedLink: false, esekShare: false, admin: false, ...options };
+    } = { sharedLink: false, esekShared: false, admin: false, ...options };
     const request = context.switchToHttp().getRequest<AuthRequest>();
 
     request.user = await this.authService.authenticate({
       headers: request.headers,
       queryParams: request.query as Record<string, string>,
-      metadata: { adminRoute, esekShareRoute, sharedLinkRoute, permission, uri: request.path },
+      metadata: { adminRoute, esekSharedRoute, sharedLinkRoute, permission, uri: request.path },
     });
 
     return true;

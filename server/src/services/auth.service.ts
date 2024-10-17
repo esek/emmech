@@ -45,7 +45,7 @@ export type ValidateRequest = {
   headers: IncomingHttpHeaders;
   queryParams: Record<string, string>;
   metadata: {
-    esekShareRoute: boolean;
+    esekSharedRoute: boolean;
     sharedLinkRoute: boolean;
     adminRoute: boolean;
     permission?: Permission;
