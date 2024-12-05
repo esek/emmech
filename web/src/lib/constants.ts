@@ -28,6 +28,7 @@ export enum AppRoute {
   PHOTOS = '/photos',
   EXPLORE = '/explore',
   SHARE = '/share',
+  PUBLISH = '/publish',
   SHARING = '/sharing',
   SHARED_LINKS = '/sharing/sharedlinks',
   SEARCH = '/search',
