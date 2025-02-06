@@ -1,7 +1,7 @@
 import { Inject, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { custom, generators, Issuer } from 'openid-client';
 import { ILoggerRepository } from 'src/interfaces/logger.interface';
-import { IOAuthRepository, OAuthConfig, OAuthProfile } from 'src/interfaces/oauth.interface';
+import { EOAuthProfile, IOAuthRepository, OAuthConfig, OAuthProfile } from 'src/interfaces/oauth.interface';
 
 @Injectable()
 export class OAuthRepository implements IOAuthRepository {
@@ -30,9 +30,17 @@ export class OAuthRepository implements IOAuthRepository {
   async getProfile(config: OAuthConfig, url: string, redirectUrl: string): Promise<OAuthProfile> {
     const client = await this.getClient(config);
     const params = client.callbackParams(url);
+    console.log(`getProfile: ${params}`)
     try {
-      const tokens = await client.callback(redirectUrl, params, { state: params.state });
-      return await client.userinfo<OAuthProfile>(tokens.access_token || '');
+      const tokens = await client.oauthCallback(redirectUrl, params, { state: params.state });
+      let eprofile = await client.userinfo<EOAuthProfile>(tokens.access_token || '');
+      return {
+        sub: eprofile.username,
+        email: eprofile.email,
+        name: eprofile.nickname,
+        preferred_username: eprofile.fullName,
+        access: eprofile.access.features
+      }
     } catch (error: Error | any) {
       if (error.message.includes('unexpected JWT alg received')) {
         this.logger.warn(

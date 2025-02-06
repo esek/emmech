@@ -14,6 +14,20 @@ export type OAuthConfig = {
 };
 export type OAuthProfile = UserinfoResponse;
 
+export type EOAuthProfile = {
+  username: string;
+  firstName: string;
+  lastName: string;
+  fullName: string;
+  email: string;
+  access: EAccess;
+}
+
+export type EAccess = {
+  doors: string[],
+  features: string[],
+}
+
 export interface IOAuthRepository {
   init(): void;
   authorize(config: OAuthConfig, redirectUrl: string): Promise<string>;
