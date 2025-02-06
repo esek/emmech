@@ -15,7 +15,7 @@ export type CookieResponse = {
 
 export class AuthDto {
   user!: UserEntity;
-
+  features!: string[];
   apiKey?: APIKeyEntity;
   sharedLink?: SharedLinkEntity;
   session?: SessionEntity;

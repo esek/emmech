@@ -42,6 +42,7 @@ export type ValidateRequest = {
   queryParams: Record<string, string>;
   metadata: {
     sharedLinkRoute: boolean;
+    publishedRoute: boolean;
     adminRoute: boolean;
     permission?: Permission;
     uri: string;
@@ -141,6 +142,11 @@ export class AuthService extends BaseService {
 
     if (authDto.apiKey && permission && !isGranted({ requested: [permission], current: authDto.apiKey.permissions })) {
       throw new ForbiddenException(`Missing required permission: ${permission}`);
+    }
+    //console.log(`Username: ${authDto.user.oauthId}\nPublished: ${metadata.publishedRoute}\n features ${authDto.features}`)
+    
+    if (authDto.user.oauthId != '' && !authDto.features.includes('superadmin') && !metadata.publishedRoute && !sharedLinkRoute) {
+      throw new ForbiddenException(`E-guild features`)
     }
 
     return authDto;
@@ -299,7 +305,7 @@ export class AuthService extends BaseService {
     if (sharedLink && (!sharedLink.expiresAt || new Date(sharedLink.expiresAt) > new Date())) {
       const user = sharedLink.user;
       if (user) {
-        return { user, sharedLink };
+        return { user, sharedLink, features: [] };
       }
     }
     throw new UnauthorizedException('Invalid share key');
@@ -309,7 +315,7 @@ export class AuthService extends BaseService {
     const hashedKey = this.cryptoRepository.hashSha256(key);
     const apiKey = await this.keyRepository.getKey(hashedKey);
     if (apiKey?.user) {
-      return { user: apiKey.user, apiKey };
+      return { user: apiKey.user, apiKey, features: []};
     }
 
     throw new UnauthorizedException('Invalid API key');
@@ -334,7 +340,7 @@ export class AuthService extends BaseService {
         await this.sessionRepository.update({ id: session.id, updatedAt: new Date() });
       }
 
-      return { user: session.user, session };
+      return { user: session.user, session, features: session.features };
     }
 
     throw new UnauthorizedException('Invalid user token');

@@ -44,7 +44,7 @@ export class UserController {
   }
 
   @Get('me')
-  @Authenticated()
+  @Authenticated({publishedRoute: true})
   getMyUser(@Auth() auth: AuthDto): UserAdminResponseDto {
     return this.service.getMe(auth);
   }
@@ -56,7 +56,7 @@ export class UserController {
   }
 
   @Get('me/preferences')
-  @Authenticated()
+  @Authenticated({publishedRoute: true})
   getMyPreferences(@Auth() auth: AuthDto): UserPreferencesResponseDto {
     return this.service.getMyPreferences(auth);
   }

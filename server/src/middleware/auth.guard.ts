@@ -18,7 +18,8 @@ import { UAParser } from 'ua-parser-js';
 
 type AdminRoute = { admin?: true };
 type SharedLinkRoute = { sharedLink?: true };
-type AuthenticatedOptions = { permission?: Permission } & (AdminRoute | SharedLinkRoute);
+type PublishedRoute = {publishedRoute?: true};
+type AuthenticatedOptions = { permission?: Permission } & (AdminRoute | SharedLinkRoute | PublishedRoute);
 
 export const Authenticated = (options?: AuthenticatedOptions): MethodDecorator => {
   const decorators: MethodDecorator[] = [
@@ -86,13 +87,14 @@ export class AuthGuard implements CanActivate {
       admin: adminRoute,
       sharedLink: sharedLinkRoute,
       permission,
-    } = { sharedLink: false, admin: false, ...options };
+      publishedRoute,
+    } = { sharedLink: false, admin: false, publishedRoute: false, ...options };
     const request = context.switchToHttp().getRequest<AuthRequest>();
 
     request.user = await this.authService.authenticate({
       headers: request.headers,
       queryParams: request.query as Record<string, string>,
-      metadata: { adminRoute, sharedLinkRoute, permission, uri: request.path },
+      metadata: { adminRoute, sharedLinkRoute, permission, publishedRoute, uri: request.path },
     });
 
     return true;

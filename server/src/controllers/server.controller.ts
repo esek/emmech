@@ -26,7 +26,7 @@ export class ServerController {
   ) {}
 
   @Get('about')
-  @Authenticated()
+  @Authenticated({publishedRoute: true})
   getAboutInfo(): Promise<ServerAboutResponseDto> {
     return this.service.getAboutInfo();
   }

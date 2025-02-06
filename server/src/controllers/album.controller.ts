@@ -40,13 +40,14 @@ export class AlbumController {
     return this.service.getStatistics(auth);
   }
 
-  @Authenticated({ permission: Permission.ALBUM_READ, sharedLink: true })
+  @Authenticated({ permission: Permission.ALBUM_READ, sharedLink: true})
   @Get(':id')
   getAlbumInfo(
     @Auth() auth: AuthDto,
     @Param() { id }: UUIDParamDto,
     @Query() dto: AlbumInfoDto,
   ): Promise<AlbumResponseDto> {
+    console.log("ALBUM INFO")
     return this.service.get(auth, id, dto);
   }
 
