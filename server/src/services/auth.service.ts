@@ -145,7 +145,7 @@ export class AuthService extends BaseService {
     }
     //console.log(`Username: ${authDto.user.oauthId}\nPublished: ${metadata.publishedRoute}\n features ${authDto.features}`)
     
-    if (authDto.user.oauthId != '' && !authDto.features.includes('superadmin') && !metadata.publishedRoute && !sharedLinkRoute) {
+    if (authDto.user.oauthId != '' && !authDto.features.includes('superadmin') && !metadata.publishedRoute && !authDto.sharedLink) {
       throw new ForbiddenException(`E-guild features`)
     }
 

@@ -59,7 +59,7 @@ export class AssetMediaController {
     required: false,
   })
   @ApiBody({ description: 'Asset Upload Information', type: AssetMediaCreateDto })
-  @Authenticated({ sharedLink: true })
+  @Authenticated({ sharedLink: true }) //TODO: look back see if this can be renabled in the future after a rework of publish
   async uploadAsset(
     @Auth() auth: AuthDto,
     @UploadedFiles(new ParseFilePipe({ validators: [new FileNotEmptyValidator(['assetData'])] })) files: UploadFiles,
