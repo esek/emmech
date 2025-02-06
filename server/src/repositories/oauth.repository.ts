@@ -27,10 +27,9 @@ export class OAuthRepository implements IOAuthRepository {
     return client.issuer.metadata.end_session_endpoint;
   }
 
-  async getProfile(config: OAuthConfig, url: string, redirectUrl: string): Promise<OAuthProfile> {
+  async getProfile(config: OAuthConfig, url: string, redirectUrl: string): Promise<OAuthProfile & {features: string[]}> {
     const client = await this.getClient(config);
     const params = client.callbackParams(url);
-    console.log(`getProfile: ${params}`)
     try {
       const tokens = await client.oauthCallback(redirectUrl, params, { state: params.state });
       let eprofile = await client.userinfo<EOAuthProfile>(tokens.access_token || '');
@@ -39,7 +38,7 @@ export class OAuthRepository implements IOAuthRepository {
         email: eprofile.email,
         name: eprofile.nickname,
         preferred_username: eprofile.fullName,
-        access: eprofile.access.features
+        features: eprofile.access.features
       }
     } catch (error: Error | any) {
       if (error.message.includes('unexpected JWT alg received')) {

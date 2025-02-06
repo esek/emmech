@@ -32,5 +32,5 @@ export interface IOAuthRepository {
   init(): void;
   authorize(config: OAuthConfig, redirectUrl: string): Promise<string>;
   getLogoutEndpoint(config: OAuthConfig): Promise<string | undefined>;
-  getProfile(config: OAuthConfig, url: string, redirectUrl: string): Promise<OAuthProfile>;
+  getProfile(config: OAuthConfig, url: string, redirectUrl: string): Promise<OAuthProfile & {features: string[]}>;
 }

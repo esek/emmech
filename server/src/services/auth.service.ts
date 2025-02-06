@@ -239,7 +239,7 @@ export class AuthService extends BaseService {
       });
     }
 
-    return this.createLoginResponse(user, loginDetails);
+    return this.createLoginResponse(user, loginDetails, profile.features);
   }
 
   async link(auth: AuthDto, dto: OAuthCallbackDto): Promise<UserAdminResponseDto> {
@@ -340,15 +340,15 @@ export class AuthService extends BaseService {
     throw new UnauthorizedException('Invalid user token');
   }
 
-  private async createLoginResponse(user: UserEntity, loginDetails: LoginDetails) {
+  private async createLoginResponse(user: UserEntity, loginDetails: LoginDetails, features: string[] = []) {
     const key = this.cryptoRepository.newPassword(32);
     const token = this.cryptoRepository.hashSha256(key);
-
     await this.sessionRepository.create({
       token,
       user,
       deviceOS: loginDetails.deviceOS,
       deviceType: loginDetails.deviceType,
+      features
     });
 
     return mapLoginResponse(user, key);

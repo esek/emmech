@@ -26,4 +26,7 @@ export class SessionEntity {
 
   @Column({ default: '' })
   deviceOS!: string;
+
+  @Column("text", { array: true, default: '{}' })
+  features!: string[];
 }
