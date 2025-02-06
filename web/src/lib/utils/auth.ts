@@ -13,6 +13,7 @@ import { AppRoute } from '../constants';
 export interface AuthOptions {
   admin?: true;
   public?: true;
+  published?: true;
 }
 
 export const loadUser = async () => {
@@ -53,7 +54,7 @@ const hasAuthCookie = (): boolean => {
 };
 
 export const authenticate = async (options?: AuthOptions) => {
-  const { public: publicRoute, admin: adminRoute } = options || {};
+  const { public: publicRoute, admin: adminRoute, published: publishedRoute } = options || {};
   const user = await loadUser();
 
   if (publicRoute) {
@@ -67,6 +68,8 @@ export const authenticate = async (options?: AuthOptions) => {
   if (adminRoute && !user.isAdmin) {
     redirect(302, AppRoute.PHOTOS);
   }
+
+
 };
 
 export const requestServerInfo = async () => {
