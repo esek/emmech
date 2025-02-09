@@ -1,24 +1,16 @@
 import { getFormatter } from '$lib/utils/i18n';
-import { getAllSharedLinksUnchecked, type AlbumResponseDto } from '@immich/sdk';
+import { getAllAlbums, getAllSharedLinksUnchecked, type AlbumResponseDto } from '@immich/sdk';
 import type { PageLoad } from './$types';
 import { authenticate } from '$lib/utils/auth';
 
 export const load = (async () => {
   await authenticate();
-  const sharedLinks = await getAllSharedLinksUnchecked();
-  const sharedAlbums: AlbumResponseDto[] = sharedLinks.filter((link) => link.album).map((link) => link.album!);
+  const publishedAlbums: AlbumResponseDto[] = await getAllAlbums({published: true})
 
-  const keys: Record<string, string> = {};
-  for (const link of sharedLinks) {
-    if (link.album) {
-      keys[link.album.id] = link.key;
-    }
-  }
   const $t = await getFormatter();
 
   return {
-    sharedAlbums,
-    keys,
+    publishedAlbums,
     meta: {
       title: $t('albums'),
     },

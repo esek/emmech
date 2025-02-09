@@ -23,7 +23,7 @@ export class AlbumController {
   constructor(private service: AlbumService) {}
 
   @Get()
-  @Authenticated({ permission: Permission.ALBUM_READ })
+  @Authenticated({ permission: Permission.ALBUM_READ, publishedRoute: true })
   getAllAlbums(@Auth() auth: AuthDto, @Query() query: GetAlbumsDto): Promise<AlbumResponseDto[]> {
     return this.service.getAll(auth, query);
   }
@@ -40,14 +40,13 @@ export class AlbumController {
     return this.service.getStatistics(auth);
   }
 
-  @Authenticated({ permission: Permission.ALBUM_READ, sharedLink: true})
+  @Authenticated({ permission: Permission.ALBUM_READ, sharedLink: true, publishedRoute: true})
   @Get(':id')
   getAlbumInfo(
     @Auth() auth: AuthDto,
     @Param() { id }: UUIDParamDto,
     @Query() dto: AlbumInfoDto,
   ): Promise<AlbumResponseDto> {
-    console.log("ALBUM INFO")
     return this.service.get(auth, id, dto);
   }
 

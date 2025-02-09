@@ -328,8 +328,10 @@ class AlbumsApi {
   /// * [String] assetId:
   ///   Only returns albums that contain the asset Ignores the shared parameter undefined: get all albums
   ///
+  /// * [bool] published:
+  ///
   /// * [bool] shared:
-  Future<Response> getAllAlbumsWithHttpInfo({ String? assetId, bool? shared, }) async {
+  Future<Response> getAllAlbumsWithHttpInfo({ String? assetId, bool? published, bool? shared, }) async {
     // ignore: prefer_const_declarations
     final path = r'/albums';
 
@@ -342,6 +344,9 @@ class AlbumsApi {
 
     if (assetId != null) {
       queryParams.addAll(_queryParams('', 'assetId', assetId));
+    }
+    if (published != null) {
+      queryParams.addAll(_queryParams('', 'published', published));
     }
     if (shared != null) {
       queryParams.addAll(_queryParams('', 'shared', shared));
@@ -366,9 +371,11 @@ class AlbumsApi {
   /// * [String] assetId:
   ///   Only returns albums that contain the asset Ignores the shared parameter undefined: get all albums
   ///
+  /// * [bool] published:
+  ///
   /// * [bool] shared:
-  Future<List<AlbumResponseDto>?> getAllAlbums({ String? assetId, bool? shared, }) async {
-    final response = await getAllAlbumsWithHttpInfo( assetId: assetId, shared: shared, );
+  Future<List<AlbumResponseDto>?> getAllAlbums({ String? assetId, bool? published, bool? shared, }) async {
+    final response = await getAllAlbumsWithHttpInfo( assetId: assetId, published: published, shared: shared, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }

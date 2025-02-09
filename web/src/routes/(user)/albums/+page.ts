@@ -6,12 +6,14 @@ import type { PageLoad } from './$types';
 export const load = (async () => {
   await authenticate();
   const sharedAlbums = await getAllAlbums({ shared: true });
+  const publishedAlbums = await getAllAlbums({published: true})
   const albums = await getAllAlbums({});
   const $t = await getFormatter();
 
   return {
     albums,
     sharedAlbums,
+    publishedAlbums,
     meta: {
       title: $t('albums'),
     },

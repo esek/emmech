@@ -148,6 +148,26 @@ services:
   #   volumes:
   #     - grafana-data:/var/lib/grafana
 
+  # pgadmin:
+  #   container_name: pgadmin
+  #   image: dpage/pgadmin4
+  #   environment:
+  #     PGADMIN_DEFAULT_EMAIL: admin@example.com  
+  #     PGADMIN_DEFAULT_PASSWORD: admin
+  #     PGADMIN_CONFIG_SERVER_MODE: 'False'
+  #     PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: 'False'
+  #     PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION: 'False'
+  #   ports:
+  #     - "5050:80"
+  #   depends_on:
+  #     - database
+  #   volumes:
+  #     - pgadmin-data:/var/lib/pgadmin
+  #   logging:
+  #     driver: "none"
+  #   restart: always
+
+
 volumes:
   model-cache:
   prometheus-data:

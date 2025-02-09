@@ -13,8 +13,7 @@
 </script>
 
 <AlbumsListPublish
-  keys={data.keys}
-  sharedAlbums={data.sharedAlbums}
+  publishedAlbums={data.publishedAlbums}
   userSettings={$albumViewSettings}
   {searchQuery}
   bind:albumGroupIds={albumGroups}

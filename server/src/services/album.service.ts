@@ -37,7 +37,7 @@ export class AlbumService extends BaseService {
     };
   }
 
-  async getAll({ user: { id: ownerId } }: AuthDto, { assetId, shared }: GetAlbumsDto): Promise<AlbumResponseDto[]> {
+  async getAll({ user: { id: ownerId } }: AuthDto, { assetId, shared, published }: GetAlbumsDto): Promise<AlbumResponseDto[]> {
     await this.albumRepository.updateThumbnails();
 
     let albums: AlbumEntity[];
@@ -47,7 +47,12 @@ export class AlbumService extends BaseService {
       albums = await this.albumRepository.getShared(ownerId);
     } else if (shared === false) {
       albums = await this.albumRepository.getNotShared(ownerId);
-    } else {
+    } else if (published === true) {
+      albums = await this.albumRepository.getPublished()
+    } else if (published === false) {
+      albums = await this.albumRepository.getNotPublished()
+    }
+    else {
       albums = await this.albumRepository.getOwned(ownerId);
     }
 

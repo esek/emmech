@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
 import { Chunked, ChunkedArray, ChunkedSet, DummyValue, GenerateSql } from 'src/decorators';
+import { AuthDto } from 'src/dtos/auth.dto';
 import { AlbumEntity } from 'src/entities/album.entity';
 import { AssetEntity } from 'src/entities/asset.entity';
 import { AlbumAssetCount, AlbumInfoOptions, IAlbumRepository } from 'src/interfaces/album.interface';
@@ -99,11 +100,35 @@ export class AlbumRepository implements IAlbumRepository {
   }
 
   @GenerateSql({ params: [DummyValue.UUID] })
-  async getOwned(ownerId: string): Promise<AlbumEntity[]> {
+  async getPublished(): Promise<AlbumEntity[]> {
     const albums = await this.repository.find({
       relations: { albumUsers: { user: true }, sharedLinks: true, owner: true },
-      where: { ownerId },
+      where: { published: true },
       order: { createdAt: 'DESC' },
+    });
+
+    return albums.map((album) => withoutDeletedUsers(album));
+  }
+
+  @GenerateSql({ params: [DummyValue.UUID] })
+  async getNotPublished(): Promise<AlbumEntity[]> {
+    const albums = await this.repository.find({
+      relations: { albumUsers: { user: true }, sharedLinks: true, owner: true },
+      where: { published: false },
+      order: { createdAt: 'DESC' },
+    });
+
+    return albums.map((album) => withoutDeletedUsers(album));
+  }
+
+
+  @GenerateSql({ params: [DummyValue.UUID] })
+  async getOwned(ownerId: string): Promise<AlbumEntity[]> {
+    //Only people with proper features from E-guild auth can even get to this endpoint, thus okey to let everyone change album.
+    const albums = await this.repository.find({
+      relations: { albumUsers: { user: true }, sharedLinks: true, owner: true },
+      order: { createdAt: 'DESC' },
+      where: { ownerId }
     });
 
     return albums.map((album) => withoutDeletedUsers(album));
@@ -135,6 +160,20 @@ export class AlbumRepository implements IAlbumRepository {
     const albums = await this.repository.find({
       relations: { albumUsers: true, sharedLinks: true, owner: true },
       where: { ownerId, albumUsers: { user: IsNull() }, sharedLinks: { id: IsNull() } },
+      order: { createdAt: 'DESC' },
+    });
+
+    return albums.map((album) => withoutDeletedUsers(album));
+  }
+
+  //This should only be called by an eguild admin
+  @GenerateSql({ params: [DummyValue.UUID] })
+  async getAll(auth: AuthDto): Promise<AlbumEntity[]> {
+    if (!(auth.features.includes('superadmin') || auth.features.includes('emmech_admin'))) {
+      return [];
+    }
+    const albums = await this.repository.find({
+      relations: { albumUsers: { user: true }, sharedLinks: true, owner: true },
       order: { createdAt: 'DESC' },
     });
 

@@ -135,6 +135,10 @@ export class AuthService extends BaseService {
       throw new ForbiddenException('Forbidden');
     }
 
+    if (authDto.sharedLink) {
+      throw new ForbiddenException("sharedLinks are disabled //Pontus")
+    }
+
     if (authDto.sharedLink && !sharedLinkRoute) {
       this.logger.warn(`Denied access to non-shared route: ${uri}`);
       throw new ForbiddenException('Forbidden');
@@ -145,7 +149,7 @@ export class AuthService extends BaseService {
     }
     //console.log(`Username: ${authDto.user.oauthId}\nPublished: ${metadata.publishedRoute}\n features ${authDto.features}`)
     
-    if (authDto.user.oauthId != '' && !authDto.features.includes('superadmin') && !metadata.publishedRoute && !authDto.sharedLink) {
+    if (authDto.user.oauthId != '' && !(authDto.features.includes('superadmin') || authDto.features.includes('emmech_admin')) && !metadata.publishedRoute && !authDto.sharedLink) {
       throw new ForbiddenException(`E-guild features`)
     }
 

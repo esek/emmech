@@ -103,6 +103,26 @@ class AlbumAccess implements IAlbumAccess {
     private sharedLinkRepository: Repository<SharedLinkEntity>,
   ) {}
 
+  @GenerateSql({ params: [DummyValue.UUID_SET] })
+  @ChunkedSet({ paramIndex: 0 })
+  async checkPublishedAccess(albumIds: Set<string>): Promise<Set<string>> {
+    if (albumIds.size === 0) {
+      return new Set<string>();
+    }
+
+    return this.albumRepository
+      .find({
+        select: { id: true },
+        where: {
+          id: In([...albumIds]),
+          published: true,
+        },
+      })
+      .then((albums) => new Set(albums.map((album) => album.id)));
+  }
+
+
+
   @GenerateSql({ params: [DummyValue.UUID, DummyValue.UUID_SET] })
   @ChunkedSet({ paramIndex: 1 })
   async checkOwnerAccess(userId: string, albumIds: Set<string>): Promise<Set<string>> {
@@ -172,6 +192,42 @@ class AssetAccess implements IAssetAccess {
     private partnerRepository: Repository<PartnerEntity>,
     private sharedLinkRepository: Repository<SharedLinkEntity>,
   ) {}
+
+
+  @GenerateSql({ params: [DummyValue.UUID_SET] })
+  @ChunkedSet({ paramIndex: 0 })
+  async checkPublishedAlbumAccess(assetIds: Set<string>): Promise<Set<string>> {
+    if (assetIds.size === 0) {
+      return new Set();
+    }
+
+    return this.albumRepository
+    .createQueryBuilder('album')
+    .innerJoin('album.assets', 'asset')
+    .leftJoin('album.albumUsers', 'album_albumUsers_users')
+    .leftJoin('album_albumUsers_users.user', 'albumUsers')
+    .select('asset.id', 'assetId')
+    .addSelect('asset.livePhotoVideoId', 'livePhotoVideoId')
+    .where('array["asset"."id", "asset"."livePhotoVideoId"] && array[:...assetIds]::uuid[]', {
+      assetIds: [...assetIds],
+    })
+    .andWhere(
+      'album.published = true'
+    )
+    .getRawMany()
+    .then((rows) => {
+      const allowedIds = new Set<string>();
+      for (const row of rows) {
+        if (row.assetId && assetIds.has(row.assetId)) {
+          allowedIds.add(row.assetId);
+        }
+        if (row.livePhotoVideoId && assetIds.has(row.livePhotoVideoId)) {
+          allowedIds.add(row.livePhotoVideoId);
+        }
+      }
+      return allowedIds;
+    });
+  }
 
   @GenerateSql({ params: [DummyValue.UUID, DummyValue.UUID_SET] })
   @ChunkedSet({ paramIndex: 1 })

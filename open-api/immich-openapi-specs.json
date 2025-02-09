@@ -581,6 +581,14 @@
             }
           },
           {
+            "name": "published",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
             "name": "shared",
             "required": false,
             "in": "query",
@@ -7673,6 +7681,9 @@
           "ownerId": {
             "type": "string"
           },
+          "published": {
+            "type": "boolean"
+          },
           "shared": {
             "type": "boolean"
           },
@@ -7698,6 +7709,7 @@
           "isActivityEnabled",
           "owner",
           "ownerId",
+          "published",
           "shared",
           "updatedAt"
         ],

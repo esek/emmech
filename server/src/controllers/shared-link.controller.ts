@@ -1,6 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Query, Req, Res } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Request, Response } from 'express';
+import { Exception } from 'handlebars';
 import { AssetIdsResponseDto } from 'src/dtos/asset-ids.response.dto';
 import { AssetIdsDto } from 'src/dtos/asset.dto';
 import { AuthDto } from 'src/dtos/auth.dto';
@@ -66,6 +67,7 @@ export class SharedLinkController {
   @Post()
   @Authenticated({ permission: Permission.SHARED_LINK_CREATE })
   createSharedLink(@Auth() auth: AuthDto, @Body() dto: SharedLinkCreateDto) {
+    throw new Exception("shared links are disabled")
     return this.service.create(auth, dto);
   }
 

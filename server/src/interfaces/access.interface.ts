@@ -10,6 +10,7 @@ export interface IAccessRepository {
   };
 
   asset: {
+    checkPublishedAlbumAccess(assetIds: Set<string>): Promise<Set<string>>;
     checkOwnerAccess(userId: string, assetIds: Set<string>): Promise<Set<string>>;
     checkAlbumAccess(userId: string, assetIds: Set<string>): Promise<Set<string>>;
     checkPartnerAccess(userId: string, assetIds: Set<string>): Promise<Set<string>>;
@@ -21,6 +22,7 @@ export interface IAccessRepository {
   };
 
   album: {
+    checkPublishedAccess(assetIds: Set<string>): Promise<Set<string>>;
     checkOwnerAccess(userId: string, albumIds: Set<string>): Promise<Set<string>>;
     checkSharedAlbumAccess(userId: string, albumIds: Set<string>, access: AlbumUserRole): Promise<Set<string>>;
     checkSharedLinkAccess(sharedLinkId: string, albumIds: Set<string>): Promise<Set<string>>;
