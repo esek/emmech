@@ -132,8 +132,8 @@
   const timelineInteractionStore = createAssetInteractionStore();
   const { selectedAssets: timelineSelected } = timelineInteractionStore;
 
-  $: isOwned = $user.id == album.ownerId;
-  $: isAllUserOwned = [...$selectedAssets].every((asset) => asset.ownerId === $user.id);
+  $: isOwned = $user.isEAdmin ?? false;
+  $: isAllUserOwned = $user.isEAdmin ?? false;
   $: isAllFavorite = [...$selectedAssets].every((asset) => asset.isFavorite);
   $: isAllArchived = [...$selectedAssets].every((asset) => asset.isArchived);
   $: {
@@ -143,9 +143,7 @@
     album.albumUsers.length > 0 && !$showAssetViewer && (album.isActivityEnabled || $numberOfComments > 0);
 
   // svelte-ignore reactive_declaration_non_reactive_property
-  $: isEditor =
-    album.albumUsers.find(({ user: { id } }) => id === $user.id)?.role === AlbumUserRole.Editor ||
-    album.ownerId === $user.id;
+  $: isEditor = $user.isEAdmin ?? false;
 
   // svelte-ignore reactive_declaration_non_reactive_property
   $: albumHasViewers = album.albumUsers.some(({ role }) => role === AlbumUserRole.Viewer);

@@ -7,6 +7,7 @@ export class SessionResponseDto {
   current!: boolean;
   deviceType!: string;
   deviceOS!: string;
+  features!: string[];
 }
 
 export const mapSession = (entity: SessionEntity, currentId?: string): SessionResponseDto => ({
@@ -16,4 +17,5 @@ export const mapSession = (entity: SessionEntity, currentId?: string): SessionRe
   current: currentId === entity.id,
   deviceOS: entity.deviceOS,
   deviceType: entity.deviceType,
+  features: entity.features,
 });

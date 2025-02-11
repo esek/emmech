@@ -31,6 +31,11 @@ export const loadUser = async () => {
         purchaseStore.setPurchaseStatus(true);
       }
     }
+
+    if (user.isEAdmin === undefined) {
+      console.log("WARNING isEADMIN")
+    }
+
     return user;
   } catch {
     return null;

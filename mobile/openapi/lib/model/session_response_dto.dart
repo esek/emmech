@@ -17,6 +17,7 @@ class SessionResponseDto {
     required this.current,
     required this.deviceOS,
     required this.deviceType,
+    this.features = const [],
     required this.id,
     required this.updatedAt,
   });
@@ -29,6 +30,8 @@ class SessionResponseDto {
 
   String deviceType;
 
+  List<String> features;
+
   String id;
 
   String updatedAt;
@@ -39,6 +42,7 @@ class SessionResponseDto {
     other.current == current &&
     other.deviceOS == deviceOS &&
     other.deviceType == deviceType &&
+    _deepEquality.equals(other.features, features) &&
     other.id == id &&
     other.updatedAt == updatedAt;
 
@@ -49,11 +53,12 @@ class SessionResponseDto {
     (current.hashCode) +
     (deviceOS.hashCode) +
     (deviceType.hashCode) +
+    (features.hashCode) +
     (id.hashCode) +
     (updatedAt.hashCode);
 
   @override
-  String toString() => 'SessionResponseDto[createdAt=$createdAt, current=$current, deviceOS=$deviceOS, deviceType=$deviceType, id=$id, updatedAt=$updatedAt]';
+  String toString() => 'SessionResponseDto[createdAt=$createdAt, current=$current, deviceOS=$deviceOS, deviceType=$deviceType, features=$features, id=$id, updatedAt=$updatedAt]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -61,6 +66,7 @@ class SessionResponseDto {
       json[r'current'] = this.current;
       json[r'deviceOS'] = this.deviceOS;
       json[r'deviceType'] = this.deviceType;
+      json[r'features'] = this.features;
       json[r'id'] = this.id;
       json[r'updatedAt'] = this.updatedAt;
     return json;
@@ -79,6 +85,9 @@ class SessionResponseDto {
         current: mapValueOfType<bool>(json, r'current')!,
         deviceOS: mapValueOfType<String>(json, r'deviceOS')!,
         deviceType: mapValueOfType<String>(json, r'deviceType')!,
+        features: json[r'features'] is Iterable
+            ? (json[r'features'] as Iterable).cast<String>().toList(growable: false)
+            : const [],
         id: mapValueOfType<String>(json, r'id')!,
         updatedAt: mapValueOfType<String>(json, r'updatedAt')!,
       );
@@ -132,6 +141,7 @@ class SessionResponseDto {
     'current',
     'deviceOS',
     'deviceType',
+    'features',
     'id',
     'updatedAt',
   };

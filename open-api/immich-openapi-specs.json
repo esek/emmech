@@ -11141,6 +11141,12 @@
           "deviceType": {
             "type": "string"
           },
+          "features": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
           "id": {
             "type": "string"
           },
@@ -11153,6 +11159,7 @@
           "current",
           "deviceOS",
           "deviceType",
+          "features",
           "id",
           "updatedAt"
         ],
@@ -12656,6 +12663,9 @@
             "type": "string"
           },
           "isAdmin": {
+            "type": "boolean"
+          },
+          "isEAdmin": {
             "type": "boolean"
           },
           "license": {

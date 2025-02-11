@@ -25,7 +25,7 @@ export class UserService extends BaseService {
   }
 
   getMe(auth: AuthDto): UserAdminResponseDto {
-    return mapUserAdmin(auth.user);
+    return mapUserAdmin(auth.user, auth.user.isAdmin || auth.features.includes('emmech_admin') || auth.features.includes('superadmin'));
   }
 
   async updateMe({ user }: AuthDto, dto: UserUpdateMeDto): Promise<UserAdminResponseDto> {

@@ -51,6 +51,7 @@ export type UserAdminResponseDto = {
     email: string;
     id: string;
     isAdmin: boolean;
+    isEAdmin?: boolean;
     license: (UserLicense) | null;
     name: string;
     oauthId: string;
@@ -1012,6 +1013,7 @@ export type SessionResponseDto = {
     current: boolean;
     deviceOS: string;
     deviceType: string;
+    features: string[];
     id: string;
     updatedAt: string;
 };
