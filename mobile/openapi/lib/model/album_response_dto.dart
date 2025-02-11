@@ -28,6 +28,7 @@ class AlbumResponseDto {
     this.order,
     required this.owner,
     required this.ownerId,
+    required this.published,
     required this.shared,
     this.startDate,
     required this.updatedAt,
@@ -81,6 +82,8 @@ class AlbumResponseDto {
 
   String ownerId;
 
+  bool published;
+
   bool shared;
 
   ///
@@ -110,6 +113,7 @@ class AlbumResponseDto {
     other.order == order &&
     other.owner == owner &&
     other.ownerId == ownerId &&
+    other.published == published &&
     other.shared == shared &&
     other.startDate == startDate &&
     other.updatedAt == updatedAt;
@@ -132,12 +136,13 @@ class AlbumResponseDto {
     (order == null ? 0 : order!.hashCode) +
     (owner.hashCode) +
     (ownerId.hashCode) +
+    (published.hashCode) +
     (shared.hashCode) +
     (startDate == null ? 0 : startDate!.hashCode) +
     (updatedAt.hashCode);
 
   @override
-  String toString() => 'AlbumResponseDto[albumName=$albumName, albumThumbnailAssetId=$albumThumbnailAssetId, albumUsers=$albumUsers, assetCount=$assetCount, assets=$assets, createdAt=$createdAt, description=$description, endDate=$endDate, hasSharedLink=$hasSharedLink, id=$id, isActivityEnabled=$isActivityEnabled, lastModifiedAssetTimestamp=$lastModifiedAssetTimestamp, order=$order, owner=$owner, ownerId=$ownerId, shared=$shared, startDate=$startDate, updatedAt=$updatedAt]';
+  String toString() => 'AlbumResponseDto[albumName=$albumName, albumThumbnailAssetId=$albumThumbnailAssetId, albumUsers=$albumUsers, assetCount=$assetCount, assets=$assets, createdAt=$createdAt, description=$description, endDate=$endDate, hasSharedLink=$hasSharedLink, id=$id, isActivityEnabled=$isActivityEnabled, lastModifiedAssetTimestamp=$lastModifiedAssetTimestamp, order=$order, owner=$owner, ownerId=$ownerId, published=$published, shared=$shared, startDate=$startDate, updatedAt=$updatedAt]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -172,6 +177,7 @@ class AlbumResponseDto {
     }
       json[r'owner'] = this.owner;
       json[r'ownerId'] = this.ownerId;
+      json[r'published'] = this.published;
       json[r'shared'] = this.shared;
     if (this.startDate != null) {
       json[r'startDate'] = this.startDate!.toUtc().toIso8601String();
@@ -206,6 +212,7 @@ class AlbumResponseDto {
         order: AssetOrder.fromJson(json[r'order']),
         owner: UserResponseDto.fromJson(json[r'owner'])!,
         ownerId: mapValueOfType<String>(json, r'ownerId')!,
+        published: mapValueOfType<bool>(json, r'published')!,
         shared: mapValueOfType<bool>(json, r'shared')!,
         startDate: mapDateTime(json, r'startDate', r''),
         updatedAt: mapDateTime(json, r'updatedAt', r'')!,
@@ -268,6 +275,7 @@ class AlbumResponseDto {
     'isActivityEnabled',
     'owner',
     'ownerId',
+    'published',
     'shared',
     'updatedAt',
   };

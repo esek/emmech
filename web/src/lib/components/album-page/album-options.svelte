@@ -32,6 +32,7 @@
   export let onShowSelectSharedUser: () => void;
   export let onRemove: (userId: string) => void;
   export let onRefreshAlbum: () => void;
+  export let isEAdmin: boolean = false;
 
   let selectedRemoveUser: UserResponseDto | null = null;
 
@@ -151,7 +152,7 @@
               {:else}
                 {$t('role_editor')}
               {/if}
-              {#if user.id !== album.ownerId}
+              {#if !isEAdmin}
                 <ButtonContextMenu icon={mdiDotsVertical} size="20" title={$t('options')}>
                   {#if role === AlbumUserRole.Viewer}
                     <MenuOption

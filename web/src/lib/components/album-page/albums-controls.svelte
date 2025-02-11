@@ -104,8 +104,8 @@
   $: albumFilterNames = ((): Record<AlbumFilter, string> => {
     return {
       [AlbumFilter.All]: $t('all'),
-      [AlbumFilter.Owned]: $t('owned'),
-      [AlbumFilter.Shared]: $t('shared'),
+      [AlbumFilter.Published]: $t('published'),
+      [AlbumFilter.NotPublished]: $t('not_published'),
     };
   })();
 

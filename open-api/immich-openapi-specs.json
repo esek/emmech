@@ -581,6 +581,14 @@
             }
           },
           {
+            "name": "published",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
             "name": "shared",
             "required": false,
             "in": "query",
@@ -7673,6 +7681,9 @@
           "ownerId": {
             "type": "string"
           },
+          "published": {
+            "type": "boolean"
+          },
           "shared": {
             "type": "boolean"
           },
@@ -7698,6 +7709,7 @@
           "isActivityEnabled",
           "owner",
           "ownerId",
+          "published",
           "shared",
           "updatedAt"
         ],
@@ -11129,6 +11141,12 @@
           "deviceType": {
             "type": "string"
           },
+          "features": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
           "id": {
             "type": "string"
           },
@@ -11141,6 +11159,7 @@
           "current",
           "deviceOS",
           "deviceType",
+          "features",
           "id",
           "updatedAt"
         ],
@@ -12644,6 +12663,9 @@
             "type": "string"
           },
           "isAdmin": {
+            "type": "boolean"
+          },
+          "isEAdmin": {
             "type": "boolean"
           },
           "license": {

@@ -12,7 +12,6 @@
   import { t } from 'svelte-i18n';
 
   export let albums: AlbumResponseDto[];
-  export let keys: Record<string, string>;
   export let group: AlbumGroup | undefined = undefined;
   export let showOwner = false;
   export let showDateRange = false;
@@ -55,12 +54,11 @@
       {#each albums as album, index (album.id)}
         <a
           data-sveltekit-preload-data="hover"
-          href="{AppRoute.SHARE}/{keys[album.id]}"
+          href="{AppRoute.ALBUMS}/{album.id}"
           animate:flip={{ duration: 400 }}
           on:contextmenu|preventDefault={(e) => showContextMenu({ x: e.x, y: e.y }, album)}
         >
           <AlbumCard
-            shareKey={keys[album.id]}
             {album}
             {showOwner}
             {showDateRange}

@@ -82,9 +82,17 @@ export class GetAlbumsDto {
   /**
    * true: only shared albums
    * false: only non-shared own albums
-   * undefined: shared and owned albums
+   * undefined: shared, published and owned albums
    */
   shared?: boolean;
+
+  @ValidateBoolean({ optional: true })
+  /**
+   * true: only published albums
+   * false: only non-publised own albums
+   * undefined: shared, published and owned albums
+   */
+  published?: boolean;
 
   /**
    * Only returns albums that contain the asset
@@ -129,6 +137,7 @@ export class AlbumResponseDto {
   shared!: boolean;
   albumUsers!: AlbumUserResponseDto[];
   hasSharedLink!: boolean;
+  published!: boolean;
   assets!: AssetResponseDto[];
   owner!: UserResponseDto;
   @ApiProperty({ type: 'integer' })
@@ -189,6 +198,7 @@ export const mapAlbum = (entity: AlbumEntity, withAssets: boolean, auth?: AuthDt
     assetCount: entity.assets?.length || 0,
     isActivityEnabled: entity.isActivityEnabled,
     order: entity.order,
+    published: entity.published,
   };
 };
 

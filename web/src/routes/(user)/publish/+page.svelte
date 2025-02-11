@@ -5,6 +5,7 @@
   import EmptyPlaceholder from '$lib/components/shared-components/empty-placeholder.svelte';
   import { t } from 'svelte-i18n';
   import AlbumsListPublish from '$lib/components/album-page/albums-list-publish.svelte';
+  import { loadUser } from '$lib/utils/auth';
 
   export let data: PageData;
 
@@ -13,8 +14,7 @@
 </script>
 
 <AlbumsListPublish
-  keys={data.keys}
-  sharedAlbums={data.sharedAlbums}
+  publishedAlbums={data.publishedAlbums}
   userSettings={$albumViewSettings}
   {searchQuery}
   bind:albumGroupIds={albumGroups}

@@ -41,6 +41,8 @@
 
   export let ownedAlbums: AlbumResponseDto[] = [];
   export let sharedAlbums: AlbumResponseDto[] = [];
+  export let publishedAlbums: AlbumResponseDto[] = [];
+  export let notPublishedAlbums: AlbumResponseDto[] = [];
   export let searchQuery: string = '';
   export let userSettings: AlbumViewSettings;
   export let allowEdit = false;
@@ -138,12 +140,13 @@
   // svelte-ignore reactive_declaration_non_reactive_property
   $: {
     switch (userSettings.filter) {
-      case AlbumFilter.Owned: {
-        albums = ownedAlbums;
+      case AlbumFilter.Published: {
+        albums = publishedAlbums;
         break;
       }
-      case AlbumFilter.Shared: {
-        albums = sharedAlbums;
+
+      case AlbumFilter.NotPublished: {
+        albums = notPublishedAlbums;
         break;
       }
       default: {
@@ -185,7 +188,7 @@
     albumGroupIds = groupedAlbums.map(({ id }) => id);
   }
 
-  $: showFullContextMenu = allowEdit && contextMenuTargetAlbum && contextMenuTargetAlbum.ownerId === $user.id;
+  $: showFullContextMenu = allowEdit && contextMenuTargetAlbum;
 
   onMount(async () => {
     if (allowEdit) {

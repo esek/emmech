@@ -90,7 +90,7 @@ export class UserController {
 
   @Get(':id')
   @Authenticated()
-  getUser(@Param() { id }: UUIDParamDto): Promise<UserResponseDto> {
+  getUser(@Auth() {features}: AuthDto, @Param() { id }: UUIDParamDto): Promise<UserResponseDto> {
     return this.service.get(id);
   }
 

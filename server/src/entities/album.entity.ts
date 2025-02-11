@@ -63,4 +63,7 @@ export class AlbumEntity {
 
   @Column({ type: 'varchar', default: AssetOrder.DESC })
   order!: AssetOrder;
+
+  @Column({default: false})
+  published!: boolean;
 }

@@ -9,7 +9,6 @@
   import { t } from 'svelte-i18n';
 
   export let album: AlbumResponseDto;
-  export let shareKey: string | undefined = undefined;
   export let showOwner = false;
   export let showDateRange = false;
   export let showItemCount = false;
@@ -45,7 +44,7 @@
     </div>
   {/if}
 
-  <AlbumCover {shareKey} {album} {preload} class="transition-all duration-300 hover:shadow-lg" />
+  <AlbumCover {album} {preload} class="transition-all duration-300 hover:shadow-lg" />
 
   <div class="mt-4">
     <p

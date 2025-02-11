@@ -12,6 +12,8 @@ import { UUIDParamDto } from 'src/validation';
 export class SessionController {
   constructor(private service: SessionService) {}
 
+  
+
   @Get()
   @Authenticated({ permission: Permission.SESSION_READ })
   getSessions(@Auth() auth: AuthDto): Promise<SessionResponseDto[]> {

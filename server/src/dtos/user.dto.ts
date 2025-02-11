@@ -129,6 +129,7 @@ export class UserAdminResponseDto extends UserResponseDto {
   storageLabel!: string | null;
   shouldChangePassword!: boolean;
   isAdmin!: boolean;
+  isEAdmin?: boolean;
   createdAt!: Date;
   deletedAt!: Date | null;
   updatedAt!: Date;
@@ -142,7 +143,7 @@ export class UserAdminResponseDto extends UserResponseDto {
   license!: UserLicense | null;
 }
 
-export function mapUserAdmin(entity: UserEntity): UserAdminResponseDto {
+export function mapUserAdmin(entity: UserEntity, isEAdmin?: boolean): UserAdminResponseDto {
   const license = entity.metadata?.find(
     (item): item is UserMetadataEntity<UserMetadataKey.LICENSE> => item.key === UserMetadataKey.LICENSE,
   )?.value;
@@ -159,5 +160,6 @@ export function mapUserAdmin(entity: UserEntity): UserAdminResponseDto {
     quotaUsageInBytes: entity.quotaUsageInBytes,
     status: entity.status,
     license: license ?? null,
+    isEAdmin: isEAdmin,
   };
 }

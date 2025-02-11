@@ -78,7 +78,7 @@ export class AssetMediaController {
 
   @Get(':id/original')
   @FileResponse()
-  @Authenticated({ sharedLink: true })
+  @Authenticated({ sharedLink: true, publishedRoute: true })
   async downloadAsset(
     @Auth() auth: AuthDto,
     @Param() { id }: UUIDParamDto,
@@ -114,7 +114,7 @@ export class AssetMediaController {
 
   @Get(':id/thumbnail')
   @FileResponse()
-  @Authenticated({ sharedLink: true })
+  @Authenticated({ sharedLink: true, publishedRoute: true })
   async viewAsset(
     @Auth() auth: AuthDto,
     @Param() { id }: UUIDParamDto,

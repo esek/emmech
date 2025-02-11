@@ -19,12 +19,11 @@
   import { t } from 'svelte-i18n';
   import AlbumCardGroupPublish from '$lib/components/album-page/album-card-group-publish.svelte';
 
-  export let sharedAlbums: AlbumResponseDto[] = [];
+  export let publishedAlbums: AlbumResponseDto[] = [];
   export let searchQuery: string = '';
   export let userSettings: AlbumViewSettings;
   export let showOwner = false;
   export let albumGroupIds: string[] = [];
-  export let keys: Record<string, string>;
 
   interface AlbumGroupOption {
     [option: string]: (order: SortOrder, albums: AlbumResponseDto[]) => AlbumGroup[];
@@ -84,7 +83,7 @@
 
   // Step 1: Filter between Owned and Shared albums, or both.
   $: {
-    albums = sharedAlbums;
+    albums = publishedAlbums;
   }
 
   // Step 2: Filter using the given search query.
@@ -145,7 +144,6 @@
     <!-- Album Cards -->
     {#if albumGroupOption === AlbumGroupBy.None}
       <AlbumCardGroupPublish
-        {keys}
         albums={groupedAlbums[0].albums}
         {showOwner}
         showDateRange
@@ -155,7 +153,6 @@
     {:else}
       {#each groupedAlbums as albumGroup (albumGroup.id)}
         <AlbumCardGroupPublish
-          {keys}
           albums={albumGroup.albums}
           group={albumGroup}
           {showOwner}

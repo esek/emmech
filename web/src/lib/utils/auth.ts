@@ -13,6 +13,7 @@ import { AppRoute } from '../constants';
 export interface AuthOptions {
   admin?: true;
   public?: true;
+  published?: true;
 }
 
 export const loadUser = async () => {
@@ -31,6 +32,11 @@ export const loadUser = async () => {
         purchaseStore.setPurchaseStatus(true);
       }
     }
+
+    if (user.isEAdmin === undefined) {
+      console.log("WARNING isEADMIN")
+    }
+
     return user;
   } catch {
     return null;
@@ -53,7 +59,7 @@ const hasAuthCookie = (): boolean => {
 };
 
 export const authenticate = async (options?: AuthOptions) => {
-  const { public: publicRoute, admin: adminRoute} = options || {};
+  const { public: publicRoute, admin: adminRoute, published: publishedRoute} = options || {};
   const user = await loadUser();
 
   if (publicRoute) {
@@ -66,6 +72,10 @@ export const authenticate = async (options?: AuthOptions) => {
 
   if (adminRoute && !user.isAdmin) {
     redirect(302, AppRoute.PHOTOS);
+  }
+
+  if (!publishedRoute && !user.isEAdmin) {
+    redirect(302, AppRoute.PUBLISH)
   }
 
 

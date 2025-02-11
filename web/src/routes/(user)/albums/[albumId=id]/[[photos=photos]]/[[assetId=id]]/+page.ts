@@ -4,7 +4,7 @@ import { getAlbumInfo } from '@immich/sdk';
 import type { PageLoad } from './$types';
 
 export const load = (async ({ params }) => {
-  await authenticate();
+  await authenticate({published: true});
   const [album, asset] = await Promise.all([
     getAlbumInfo({ id: params.albumId, withoutAssets: true }),
     getAssetInfoFromParam(params),

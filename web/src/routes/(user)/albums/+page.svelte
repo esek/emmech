@@ -37,6 +37,7 @@
 
   <Albums
     ownedAlbums={data.albums}
+    publishedAlbums={data.publishedAlbums}
     sharedAlbums={data.sharedAlbums}
     userSettings={$albumViewSettings}
     allowEdit

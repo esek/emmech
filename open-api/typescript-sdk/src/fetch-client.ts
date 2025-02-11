@@ -51,6 +51,7 @@ export type UserAdminResponseDto = {
     email: string;
     id: string;
     isAdmin: boolean;
+    isEAdmin?: boolean;
     license: (UserLicense) | null;
     name: string;
     oauthId: string;
@@ -291,6 +292,7 @@ export type AlbumResponseDto = {
     order?: AssetOrder;
     owner: UserResponseDto;
     ownerId: string;
+    published: boolean;
     shared: boolean;
     startDate?: string;
     updatedAt: string;
@@ -1011,6 +1013,7 @@ export type SessionResponseDto = {
     current: boolean;
     deviceOS: string;
     deviceType: string;
+    features: string[];
     id: string;
     updatedAt: string;
 };
@@ -1463,8 +1466,9 @@ export function restoreUserAdmin({ id }: {
         method: "POST"
     }));
 }
-export function getAllAlbums({ assetId, shared }: {
+export function getAllAlbums({ assetId, published, shared }: {
     assetId?: string;
+    published?: boolean;
     shared?: boolean;
 }, opts?: Oazapfts.RequestOpts) {
     return oazapfts.ok(oazapfts.fetchJson<{
@@ -1472,6 +1476,7 @@ export function getAllAlbums({ assetId, shared }: {
         data: AlbumResponseDto[];
     }>(`/albums${QS.query(QS.explode({
         assetId,
+        published,
         shared
     }))}`, {
         ...opts

@@ -108,8 +108,8 @@ export enum AlbumViewMode {
 
 export enum AlbumFilter {
   All = 'All',
-  Owned = 'Owned',
-  Shared = 'Shared',
+  Published = 'Published',
+  NotPublished = 'Not Published'
 }
 
 export enum AlbumGroupBy {

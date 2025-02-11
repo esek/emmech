@@ -74,7 +74,7 @@ export class AssetController {
   }
 
   @Get(':id')
-  @Authenticated({ sharedLink: true })
+  @Authenticated({ sharedLink: true, publishedRoute: true })
   getAssetInfo(@Auth() auth: AuthDto, @Param() { id }: UUIDParamDto): Promise<AssetResponseDto> {
     return this.service.get(auth, id) as Promise<AssetResponseDto>;
   }
