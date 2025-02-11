@@ -23,10 +23,18 @@ export class AlbumController {
   constructor(private service: AlbumService) {}
 
   @Get()
-  @Authenticated({ permission: Permission.ALBUM_READ, publishedRoute: true })
+  @Authenticated({ permission: Permission.ALBUM_READ })
   getAllAlbums(@Auth() auth: AuthDto, @Query() query: GetAlbumsDto): Promise<AlbumResponseDto[]> {
     return this.service.getAll(auth, query);
   }
+
+  @Get()
+  @Authenticated({publishedRoute: true})
+  getPublishedAlbums(@Auth() auth: AuthDto): Promise<AlbumResponseDto[]> {
+    return this.service.getAll(auth, {published: true})
+  }
+
+
 
   @Post()
   @Authenticated({ permission: Permission.ALBUM_CREATE })

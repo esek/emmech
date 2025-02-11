@@ -1,3 +1,4 @@
+import { AuthDto } from 'src/dtos/auth.dto';
 import { AlbumEntity } from 'src/entities/album.entity';
 import { IBulkAsset } from 'src/utils/asset.util';
 
@@ -19,6 +20,7 @@ export interface IAlbumRepository extends IBulkAsset {
   getByAssetId(ownerId: string, assetId: string): Promise<AlbumEntity[]>;
   removeAsset(assetId: string): Promise<void>;
   getMetadataForIds(ids: string[]): Promise<AlbumAssetCount[]>;
+  getAll(auth: AuthDto): Promise<AlbumEntity[]>
   getPublished(): Promise<AlbumEntity[]>;
   getNotPublished(): Promise<AlbumEntity[]>;
   getOwned(ownerId: string): Promise<AlbumEntity[]>;

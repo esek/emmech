@@ -37,8 +37,11 @@ export class AlbumService extends BaseService {
     };
   }
 
-  async getAll({ user: { id: ownerId } }: AuthDto, { assetId, shared, published }: GetAlbumsDto): Promise<AlbumResponseDto[]> {
+  async getAll(authDto: AuthDto, { assetId, shared, published }: GetAlbumsDto): Promise<AlbumResponseDto[]> {
     await this.albumRepository.updateThumbnails();
+
+    const ownerId = authDto.user.id
+
 
     let albums: AlbumEntity[];
     if (assetId) {
@@ -53,7 +56,7 @@ export class AlbumService extends BaseService {
       albums = await this.albumRepository.getNotPublished()
     }
     else {
-      albums = await this.albumRepository.getOwned(ownerId);
+      albums = await this.albumRepository.getAll(authDto);
     }
 
     // Get asset count for each album. Then map the result to an object:

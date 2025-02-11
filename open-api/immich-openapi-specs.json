@@ -568,35 +568,8 @@
     },
     "/albums": {
       "get": {
-        "operationId": "getAllAlbums",
-        "parameters": [
-          {
-            "name": "assetId",
-            "required": false,
-            "in": "query",
-            "description": "Only returns albums that contain the asset\nIgnores the shared parameter\nundefined: get all albums",
-            "schema": {
-              "format": "uuid",
-              "type": "string"
-            }
-          },
-          {
-            "name": "published",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "boolean"
-            }
-          },
-          {
-            "name": "shared",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "boolean"
-            }
-          }
-        ],
+        "operationId": "getPublishedAlbums",
+        "parameters": [],
         "responses": {
           "200": {
             "content": {
