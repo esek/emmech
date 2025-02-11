@@ -84,7 +84,7 @@
     class="flex w-[calc(100%-3rem)] justify-end gap-2 overflow-hidden text-white"
     data-testid="asset-viewer-navbar-actions"
   >
-    {#if !asset.isTrashed && $user}
+    {#if !asset.isTrashed && $user.isEAdmin}
       <ShareAction {asset} />
     {/if}
     {#if asset.isOffline}

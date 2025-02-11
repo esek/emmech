@@ -145,6 +145,8 @@
   // svelte-ignore reactive_declaration_non_reactive_property
   $: isEditor = $user.isEAdmin ?? false;
 
+  $: isEAdmin = $user.isEAdmin ?? false;
+
   // svelte-ignore reactive_declaration_non_reactive_property
   $: albumHasViewers = album.albumUsers.some(({ role }) => role === AlbumUserRole.Viewer);
 
@@ -434,7 +436,7 @@
 
 <div class="flex overflow-hidden" bind:clientWidth={globalWidth}>
   <div class="relative w-full shrink">
-    {#if $isMultiSelectState}
+    {#if $isMultiSelectState && isEAdmin}
       <AssetSelectControlBar assets={$selectedAssets} clearSelect={() => assetInteractionStore.clearMultiselect()}>
         <CreateSharedLink />
         <SelectAllAssets {assetStore} {assetInteractionStore} />
@@ -501,7 +503,7 @@
 
             {#if album.assetCount > 0}
               <CircleIconButton title={$t('slideshow')} on:click={handleStartSlideshow} icon={mdiPresentationPlay} />
-              <CircleIconButton title={$t('download')} on:click={handleDownloadAlbum} icon={mdiFolderDownloadOutline} />
+              <!-- <CircleIconButton title={$t('download')} on:click={handleDownloadAlbum} icon={mdiFolderDownloadOutline} /> -->
 
               {#if isOwned}
                 <ButtonContextMenu icon={mdiDotsVertical} title={$t('album_options')}>
@@ -576,6 +578,7 @@
             assetStore={timelineStore}
             assetInteractionStore={timelineInteractionStore}
             isSelectionMode={true}
+            {isEAdmin}
           />
         {:else}
           <AssetGrid
@@ -589,6 +592,7 @@
             showArchiveIcon
             onSelect={({ id }) => handleUpdateThumbnail(id)}
             onEscape={handleEscape}
+            {isEAdmin}
           >
             {#if viewMode !== ViewMode.SELECT_THUMBNAIL}
               <!-- ALBUM TITLE -->
@@ -751,6 +755,7 @@
     onClose={() => (viewMode = ViewMode.VIEW)}
     onToggleEnabledActivity={handleToggleEnableActivity}
     onShowSelectSharedUser={() => (viewMode = ViewMode.SELECT_USERS)}
+    {isEAdmin}
   />
 {/if}
 

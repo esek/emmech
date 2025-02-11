@@ -26,6 +26,7 @@
   export let assetStore: AssetStore;
   export let bucket: AssetBucket;
   export let assetInteractionStore: AssetInteractionStore;
+  export let isEAdmin: boolean = false;
 
   export let onScrollTarget: ScrollTargetListener | undefined = undefined;
   export let onAssetInGrid: ((asset: AssetResponseDto) => void) | undefined = undefined;
@@ -151,7 +152,7 @@
             class="flex z-[100] sticky top-[-1px] pt-[calc(1.75rem+1px)] pb-5 h-6 place-items-center text-xs font-medium text-immich-fg bg-immich-bg dark:bg-immich-dark-bg dark:text-immich-dark-fg md:text-sm"
             style:width={dateGroup.geometry.containerWidth + 'px'}
           >
-            {#if !singleSelect && ((hoveredDateGroup == dateGroup.groupTitle && isMouseOverGroup) || $selectedGroup.has(dateGroup.groupTitle))}
+            {#if !singleSelect && ((hoveredDateGroup == dateGroup.groupTitle && isMouseOverGroup) || $selectedGroup.has(dateGroup.groupTitle)) && isEAdmin}
               <div
                 transition:fly={{ x: -24, duration: 200, opacity: 0.5 }}
                 class="inline-block px-2 hover:cursor-pointer"
@@ -217,6 +218,7 @@
                   disabled={$assetStore.albumAssets.has(asset.id)}
                   thumbnailWidth={box.width}
                   thumbnailHeight={box.height}
+                  readonly={!isEAdmin}
                 />
               </div>
             {/each}

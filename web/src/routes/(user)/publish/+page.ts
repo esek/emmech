@@ -4,7 +4,7 @@ import type { PageLoad } from './$types';
 import { authenticate } from '$lib/utils/auth';
 
 export const load = (async () => {
-  await authenticate();
+  await authenticate({published: true});
   const publishedAlbums: AlbumResponseDto[] = await getAllAlbums({published: true})
 
   const $t = await getFormatter();

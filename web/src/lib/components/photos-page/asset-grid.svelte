@@ -37,6 +37,7 @@
   import type { UpdatePayload } from 'vite';
   import { generateId } from '$lib/utils/generate-id';
   import { isTimelineScrolling } from '$lib/stores/timeline.store';
+  import { user } from '$lib/stores/user.store';
 
   export let isSelectionMode = false;
   export let singleSelect = false;
@@ -45,7 +46,7 @@
    `AssetViewingStore.gridScrollTarget` and load and scroll to the asset specified, and
    additionally, update the page location/url with the asset as the asset-grid is scrolled */
   export let enableRouting: boolean;
-
+  export let isEAdmin: boolean = false;
   export let assetStore: AssetStore;
   export let assetInteractionStore: AssetInteractionStore;
   export let removeAction:
@@ -854,6 +855,7 @@
             onSelect={({ title, assets }) => handleGroupSelect(title, assets)}
             onSelectAssetCandidates={handleSelectAssetCandidates}
             onSelectAssets={handleSelectAssets}
+            {isEAdmin}
           />
         {/if}
       </div>
