@@ -318,6 +318,7 @@ export type UpdateAlbumDto = {
     description?: string;
     isActivityEnabled?: boolean;
     order?: AssetOrder;
+    published?: boolean;
 };
 export type BulkIdsDto = {
     ids: string[];
@@ -1493,6 +1494,14 @@ export function createAlbum({ createAlbumDto }: {
         method: "POST",
         body: createAlbumDto
     })));
+}
+export function getPublishedAlbums(opts?: Oazapfts.RequestOpts) {
+    return oazapfts.ok(oazapfts.fetchJson<{
+        status: 200;
+        data: AlbumResponseDto[];
+    }>("/albums/published", {
+        ...opts
+    }));
 }
 export function getAlbumStatistics(opts?: Oazapfts.RequestOpts) {
     return oazapfts.ok(oazapfts.fetchJson<{

@@ -71,6 +71,9 @@ export class UpdateAlbumDto {
   @ValidateBoolean({ optional: true })
   isActivityEnabled?: boolean;
 
+  @ValidateBoolean({ optional: true })
+  published?: boolean;
+
   @IsEnum(AssetOrder)
   @Optional()
   @ApiProperty({ enum: AssetOrder, enumName: 'AssetOrder' })

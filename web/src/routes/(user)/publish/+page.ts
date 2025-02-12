@@ -1,12 +1,12 @@
 import { getFormatter } from '$lib/utils/i18n';
-import { getAllAlbums, getAllSharedLinksUnchecked, type AlbumResponseDto } from '@immich/sdk';
+import { getPublishedAlbums, getAllAlbums, type AlbumResponseDto } from '@immich/sdk';
 import type { PageLoad } from './$types';
 import { authenticate } from '$lib/utils/auth';
 
 export const load = (async () => {
-  await authenticate({published: true});
-  const publishedAlbums: AlbumResponseDto[] = await getAllAlbums({published: true})
-
+  await authenticate({published: true})
+  const publishedAlbums: AlbumResponseDto[] = await getPublishedAlbums()
+  
   const $t = await getFormatter();
 
   return {

@@ -568,8 +568,35 @@
     },
     "/albums": {
       "get": {
-        "operationId": "getPublishedAlbums",
-        "parameters": [],
+        "operationId": "getAllAlbums",
+        "parameters": [
+          {
+            "name": "assetId",
+            "required": false,
+            "in": "query",
+            "description": "Only returns albums that contain the asset\nIgnores the shared parameter\nundefined: get all albums",
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "name": "published",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "shared",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "content": {
@@ -619,6 +646,41 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AlbumResponseDto"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          },
+          {
+            "cookie": []
+          },
+          {
+            "api_key": []
+          }
+        ],
+        "tags": [
+          "Albums"
+        ]
+      }
+    },
+    "/albums/published": {
+      "get": {
+        "operationId": "getPublishedAlbums",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/AlbumResponseDto"
+                  },
+                  "type": "array"
                 }
               }
             },
@@ -12459,6 +12521,9 @@
           },
           "order": {
             "$ref": "#/components/schemas/AssetOrder"
+          },
+          "published": {
+            "type": "boolean"
           }
         },
         "type": "object"

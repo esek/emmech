@@ -28,7 +28,7 @@ export class AlbumController {
     return this.service.getAll(auth, query);
   }
 
-  @Get()
+  @Get("published")
   @Authenticated({publishedRoute: true})
   getPublishedAlbums(@Auth() auth: AuthDto): Promise<AlbumResponseDto[]> {
     return this.service.getAll(auth, {published: true})

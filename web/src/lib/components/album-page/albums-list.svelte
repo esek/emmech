@@ -1,8 +1,22 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { groupBy } from 'lodash-es';
-  import { addUsersToAlbum, deleteAlbum, type AlbumUserAddDto, type AlbumResponseDto, isHttpError } from '@immich/sdk';
-  import { mdiDeleteOutline, mdiShareVariantOutline, mdiFolderDownloadOutline, mdiRenameOutline } from '@mdi/js';
+  import {
+    addUsersToAlbum,
+    deleteAlbum,
+    type AlbumUserAddDto,
+    type AlbumResponseDto,
+    isHttpError,
+    updateAlbumInfo,
+  } from '@immich/sdk';
+  import {
+    mdiDeleteOutline,
+    mdiShareVariantOutline,
+    mdiFolderDownloadOutline,
+    mdiRenameOutline,
+    mdiPublish,
+    mdiPublishOff,
+  } from '@mdi/js';
   import EditAlbumForm from '$lib/components/forms/edit-album-form.svelte';
   import CreateSharedLinkModal from '$lib/components/shared-components/create-share-link-modal/create-shared-link-modal.svelte';
   import {
@@ -236,6 +250,27 @@
     sharedAlbums = sharedAlbums.filter(({ id }) => id !== albumToDelete.id);
   };
 
+  const togglePublish = async () => {
+    const album = contextMenuTargetAlbum;
+    if (album) {
+      closeAlbumContextMenu();
+      try {
+        await updateAlbumInfo({
+          id: album.id,
+          updateAlbumDto: {
+            published: !album.published,
+          },
+        });
+        album.published = !album.published;
+        publishedAlbums = ownedAlbums.filter((a) => a.published);
+        notPublishedAlbums = ownedAlbums.filter((a) => !a.published);
+        successEditAlbumInfo(album);
+      } catch (error) {
+        handleError(error, $t('errors.unable_to_update_album_info'));
+      }
+    }
+  };
+
   const setAlbumToDelete = async () => {
     albumToDelete = contextMenuTargetAlbum ?? null;
     closeAlbumContextMenu();
@@ -275,7 +310,7 @@
     await Promise.allSettled(albumsToRemove.map((album) => handleDeleteAlbum(album)));
   };
 
-  const updateAlbumInfo = (album: AlbumResponseDto) => {
+  const updateAlbumInfoM = (album: AlbumResponseDto) => {
     ownedAlbums[ownedAlbums.findIndex(({ id }) => id === album.id)] = album;
     sharedAlbums[sharedAlbums.findIndex(({ id }) => id === album.id)] = album;
   };
@@ -294,7 +329,7 @@
       },
     });
 
-    updateAlbumInfo(album);
+    updateAlbumInfoM(album);
   };
 
   const handleAddUsers = async (albumUsers: AlbumUserAddDto[]) => {
@@ -308,7 +343,7 @@
           albumUsers,
         },
       });
-      updateAlbumInfo(album);
+      updateAlbumInfoM(album);
     } catch (error) {
       handleError(error, $t('errors.unable_to_add_album_users'));
     } finally {
@@ -319,7 +354,7 @@
   const handleSharedLinkCreated = (album: AlbumResponseDto) => {
     album.shared = true;
     album.hasSharedLink = true;
-    updateAlbumInfo(album);
+    updateAlbumInfoM(album);
   };
 
   const openShareModal = () => {
@@ -372,6 +407,11 @@
       icon={mdiRenameOutline}
       text={$t('edit_album')}
       onClick={() => contextMenuTargetAlbum && handleEdit(contextMenuTargetAlbum)}
+    />
+    <MenuOption
+      icon={contextMenuTargetAlbum?.published ? mdiPublishOff : mdiPublish}
+      text={contextMenuTargetAlbum?.published ? $t('unpublish') : $t('publish')}
+      onClick={() => togglePublish()}
     />
     <MenuOption icon={mdiShareVariantOutline} text={$t('share')} onClick={() => openShareModal()} />
   {/if}

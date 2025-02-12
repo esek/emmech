@@ -18,6 +18,7 @@ class UpdateAlbumDto {
     this.description,
     this.isActivityEnabled,
     this.order,
+    this.published,
   });
 
   ///
@@ -60,13 +61,22 @@ class UpdateAlbumDto {
   ///
   AssetOrder? order;
 
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  bool? published;
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is UpdateAlbumDto &&
     other.albumName == albumName &&
     other.albumThumbnailAssetId == albumThumbnailAssetId &&
     other.description == description &&
     other.isActivityEnabled == isActivityEnabled &&
-    other.order == order;
+    other.order == order &&
+    other.published == published;
 
   @override
   int get hashCode =>
@@ -75,10 +85,11 @@ class UpdateAlbumDto {
     (albumThumbnailAssetId == null ? 0 : albumThumbnailAssetId!.hashCode) +
     (description == null ? 0 : description!.hashCode) +
     (isActivityEnabled == null ? 0 : isActivityEnabled!.hashCode) +
-    (order == null ? 0 : order!.hashCode);
+    (order == null ? 0 : order!.hashCode) +
+    (published == null ? 0 : published!.hashCode);
 
   @override
-  String toString() => 'UpdateAlbumDto[albumName=$albumName, albumThumbnailAssetId=$albumThumbnailAssetId, description=$description, isActivityEnabled=$isActivityEnabled, order=$order]';
+  String toString() => 'UpdateAlbumDto[albumName=$albumName, albumThumbnailAssetId=$albumThumbnailAssetId, description=$description, isActivityEnabled=$isActivityEnabled, order=$order, published=$published]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -107,6 +118,11 @@ class UpdateAlbumDto {
     } else {
     //  json[r'order'] = null;
     }
+    if (this.published != null) {
+      json[r'published'] = this.published;
+    } else {
+    //  json[r'published'] = null;
+    }
     return json;
   }
 
@@ -124,6 +140,7 @@ class UpdateAlbumDto {
         description: mapValueOfType<String>(json, r'description'),
         isActivityEnabled: mapValueOfType<bool>(json, r'isActivityEnabled'),
         order: AssetOrder.fromJson(json[r'order']),
+        published: mapValueOfType<bool>(json, r'published'),
       );
     }
     return null;
