@@ -1,5 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { Exception } from 'handlebars';
 import {
   AddUsersDto,
   AlbumInfoDto,
@@ -101,6 +102,7 @@ export class AlbumController {
     @Param() { id }: UUIDParamDto,
     @Body() dto: AddUsersDto,
   ): Promise<AlbumResponseDto> {
+    throw new Exception("Adding users to album is disabled");
     return this.service.addUsers(auth, id, dto);
   }
 
@@ -112,6 +114,7 @@ export class AlbumController {
     @Param('userId', new ParseMeUUIDPipe({ version: '4' })) userId: string,
     @Body() dto: UpdateAlbumUserDto,
   ): Promise<void> {
+    throw new Exception("Adding users to album is disabled");
     return this.service.updateUser(auth, id, userId, dto);
   }
 
@@ -122,6 +125,7 @@ export class AlbumController {
     @Param() { id }: UUIDParamDto,
     @Param('userId', new ParseMeUUIDPipe({ version: '4' })) userId: string,
   ) {
+    throw new Exception("Adding users to album is disabled");
     return this.service.removeUser(auth, id, userId);
   }
 }
