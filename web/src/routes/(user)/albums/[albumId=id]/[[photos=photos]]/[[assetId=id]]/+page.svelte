@@ -609,9 +609,8 @@
                 {/if}
 
                 <!-- ALBUM SHARING -->
-                {#if album.albumUsers.length > 0 || (album.hasSharedLink && isOwned)}
+                <!-- {#if album.albumUsers.length > 0 || (album.hasSharedLink && isOwned)}
                   <div class="my-3 flex gap-x-1">
-                    <!-- link -->
                     {#if album.hasSharedLink && isOwned}
                       <CircleIconButton
                         title={$t('create_link_to_share')}
@@ -622,19 +621,16 @@
                       />
                     {/if}
 
-                    <!-- owner -->
                     <button type="button" on:click={() => (viewMode = ViewMode.VIEW_USERS)}>
                       <UserAvatar user={album.owner} size="md" />
                     </button>
 
-                    <!-- users with write access (collaborators) -->
                     {#each album.albumUsers.filter(({ role }) => role === AlbumUserRole.Editor) as { user } (user.id)}
                       <button type="button" on:click={() => (viewMode = ViewMode.VIEW_USERS)}>
                         <UserAvatar {user} size="md" />
                       </button>
                     {/each}
 
-                    <!-- display ellipsis if there are readonly users too -->
                     {#if albumHasViewers}
                       <CircleIconButton
                         title={$t('view_all_users')}
@@ -655,7 +651,7 @@
                       />
                     {/if}
                   </div>
-                {/if}
+                {/if} -->
                 <!-- ALBUM DESCRIPTION -->
                 <AlbumDescription id={album.id} bind:description={album.description} {isOwned} />
               </section>
