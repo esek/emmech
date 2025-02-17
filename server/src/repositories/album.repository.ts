@@ -169,7 +169,7 @@ export class AlbumRepository implements IAlbumRepository {
   //This should only be called by an eguild admin
   @GenerateSql({ params: [DummyValue.UUID] })
   async getAll(auth: AuthDto): Promise<AlbumEntity[]> {
-    if (!(auth.features.includes('superadmin') || auth.features.includes('emmech_admin'))) {
+    if (!(auth.features.includes('superadmin') || auth.features.includes('emmech_admin') || auth.user.isAdmin)) {
       return [];
     }
     const albums = await this.repository.find({
