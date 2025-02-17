@@ -36,8 +36,9 @@ export class OAuthRepository implements IOAuthRepository {
       return {
         sub: eprofile.username,
         email: eprofile.email,
-        name: eprofile.nickname,
-        preferred_username: eprofile.fullName,
+        name: eprofile.fullName ?? eprofile.nickname ?? eprofile.username,
+        given_name: eprofile.fullName,
+        preferred_username: eprofile.username,
         features: eprofile.access.features
       }
     } catch (error: Error | any) {
