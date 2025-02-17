@@ -1,6 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Chunked, ChunkedArray, DummyValue, GenerateSql } from 'src/decorators';
+import { AuthDto } from 'src/dtos/auth.dto';
 import { AssetFileEntity } from 'src/entities/asset-files.entity';
 import { AssetJobStatusEntity } from 'src/entities/asset-job-status.entity';
 import { AssetEntity } from 'src/entities/asset.entity';
@@ -87,6 +88,30 @@ export class AssetRepository implements IAssetRepository {
       AND EXTRACT(MONTH FROM entity.localDateTime AT TIME ZONE 'UTC') = :month`,
         {
           ownerIds,
+          day,
+          month,
+        },
+      )
+      .leftJoinAndSelect('entity.exifInfo', 'exifInfo')
+      .leftJoinAndSelect('entity.files', 'files')
+      .orderBy('entity.fileCreatedAt', 'ASC')
+      .getMany();
+  }
+
+  @GenerateSql({ params: [[DummyValue.UUID], { day: 1, month: 1 }] })
+  getAllByDayOfYear(auth: AuthDto, { day, month }: MonthDay): Promise<AssetEntity[]> {
+    if(!(auth.features.includes('superadmin') || auth.features.includes('emmech_admin') || auth.user.isAdmin)) {
+      return new Promise(() => [])
+    }
+
+    return this.repository
+      .createQueryBuilder('entity')
+      .where(
+        `entity.isVisible = true
+      AND entity.isArchived = false
+      AND EXTRACT(DAY FROM entity.localDateTime AT TIME ZONE 'UTC') = :day
+      AND EXTRACT(MONTH FROM entity.localDateTime AT TIME ZONE 'UTC') = :month`,
+        {
           day,
           month,
         },

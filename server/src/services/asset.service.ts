@@ -43,7 +43,7 @@ export class AssetService extends BaseService {
     });
     const userIds = [auth.user.id, ...partnerIds];
 
-    const assets = await this.assetRepository.getByDayOfYear(userIds, dto);
+    const assets = await this.assetRepository.getAllByDayOfYear(auth, dto);
     const assetsWithThumbnails = assets.filter(({ files }) => !!getAssetFiles(files).thumbnailFile);
     const groups: Record<number, AssetEntity[]> = {};
     const currentYear = new Date().getFullYear();

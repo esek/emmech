@@ -1,3 +1,4 @@
+import { AuthDto } from 'src/dtos/auth.dto';
 import { AssetJobStatusEntity } from 'src/entities/asset-job-status.entity';
 import { AssetEntity } from 'src/entities/asset.entity';
 import { ExifEntity } from 'src/entities/exif.entity';
@@ -159,6 +160,7 @@ export interface IAssetRepository {
     select?: FindOptionsSelect<AssetEntity>,
   ): Promise<AssetEntity[]>;
   getByIdsWithAllRelations(ids: string[]): Promise<AssetEntity[]>;
+  getAllByDayOfYear(auth: AuthDto, monthDay: MonthDay): Promise<AssetEntity[]>;
   getByDayOfYear(ownerIds: string[], monthDay: MonthDay): Promise<AssetEntity[]>;
   getByChecksum(options: { ownerId: string; checksum: Buffer; libraryId?: string }): Promise<AssetEntity | null>;
   getByChecksums(userId: string, checksums: Buffer[]): Promise<AssetEntity[]>;
