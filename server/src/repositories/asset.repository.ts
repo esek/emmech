@@ -695,7 +695,7 @@ export class AssetRepository implements IAssetRepository {
       builder.leftJoin('asset.albums', 'album').andWhere('album.id = :albumId', { albumId: options.albumId });
     }
 
-    if (options.userIds) {
+    if (options.userIds && !options.isEAdmin) {
       builder.andWhere('asset.ownerId IN (:...userIds )', { userIds: options.userIds });
     }
 

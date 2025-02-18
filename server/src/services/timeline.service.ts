@@ -19,14 +19,14 @@ export class TimelineService extends BaseService {
     dto: TimeBucketAssetDto,
   ): Promise<AssetResponseDto[] | SanitizedAssetResponseDto[]> {
     await this.timeBucketChecks(auth, dto);
-    const timeBucketOptions = await this.buildTimeBucketOptions(auth, dto);
+    const timeBucketOptions = await this.buildTimeBucketOptions(auth, dto, true);
     const assets = await this.assetRepository.getTimeBucket(dto.timeBucket, timeBucketOptions);
     return !auth.sharedLink || auth.sharedLink?.showExif
       ? assets.map((asset) => mapAsset(asset, { withStack: true, auth }))
       : assets.map((asset) => mapAsset(asset, { stripMetadata: true, auth }));
   }
 
-  private async buildTimeBucketOptions(auth: AuthDto, dto: TimeBucketDto): Promise<TimeBucketOptions> {
+  private async buildTimeBucketOptions(auth: AuthDto, dto: TimeBucketDto, allowEAdminBypass: boolean = false): Promise<TimeBucketOptions> {
     const { userId, ...options } = dto;
     let userIds: string[] | undefined = undefined;
 
@@ -42,7 +42,9 @@ export class TimelineService extends BaseService {
       }
     }
 
-    return { ...options, userIds };
+    const isEAdmin = allowEAdminBypass && (auth.features.includes('superadmin') || auth.features.includes('emmech_admin') || auth.user.isAdmin)
+
+    return { ...options, userIds, isEAdmin };
   }
 
   private async timeBucketChecks(auth: AuthDto, dto: TimeBucketDto) {

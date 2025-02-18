@@ -49,6 +49,7 @@ export interface AssetBuilderOptions {
   isFavorite?: boolean;
   isTrashed?: boolean;
   isDuplicate?: boolean;
+  isEAdmin?: boolean;
   albumId?: string;
   tagId?: string;
   personId?: string;
