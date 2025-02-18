@@ -10,7 +10,7 @@ import { getMyPartnerIds } from 'src/utils/asset.util';
 export class TimelineService extends BaseService {
   async getTimeBuckets(auth: AuthDto, dto: TimeBucketDto): Promise<TimeBucketResponseDto[]> {
     await this.timeBucketChecks(auth, dto);
-    const timeBucketOptions = await this.buildTimeBucketOptions(auth, dto);
+    const timeBucketOptions = await this.buildTimeBucketOptions(auth, dto, true);
     return this.assetRepository.getTimeBuckets(timeBucketOptions);
   }
 
