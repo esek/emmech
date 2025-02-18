@@ -7,6 +7,7 @@
   import { getServerErrorMessage, handleError } from '$lib/utils/handle-error';
   import { login } from '@immich/sdk';
   import { onMount } from 'svelte';
+  import { page } from '$app/stores';
   import { fade } from 'svelte/transition';
   import Button from '../elements/buttons/button.svelte';
   import PasswordField from '../shared-components/password-field.svelte';
@@ -42,7 +43,11 @@
     }
 
     try {
-      if ($featureFlags.oauthAutoLaunch && !oauth.isAutoLaunchDisabled(window.location)) {
+      if (
+        $featureFlags.oauthAutoLaunch &&
+        !oauth.isAutoLaunchDisabled(window.location) &&
+        !$page.url.searchParams.has('noredirect')
+      ) {
         await goto(`${AppRoute.AUTH_LOGIN}?autoLaunch=0`, { replaceState: true });
         await oauth.authorize(window.location);
         return;
