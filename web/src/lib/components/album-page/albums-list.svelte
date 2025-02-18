@@ -56,7 +56,7 @@
   export let ownedAlbums: AlbumResponseDto[] = [];
   export let sharedAlbums: AlbumResponseDto[] = [];
   export let publishedAlbums: AlbumResponseDto[] = [];
-  export let notPublishedAlbums: AlbumResponseDto[] = [];
+  export let notPublishedAlbums: AlbumResponseDto[] = ownedAlbums.filter((album) => !album.published);
   export let searchQuery: string = '';
   export let userSettings: AlbumViewSettings;
   export let allowEdit = false;
