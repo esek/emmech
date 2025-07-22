@@ -15,4 +15,5 @@ jobs:
     with:
       disable_testing: true
       only_prod: true
+      unlimited_service_deploy: true
       emmech_quirk: true
