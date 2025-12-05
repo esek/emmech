@@ -767,7 +767,7 @@
 {#if showShortcuts}
   <ShowShortcuts onClose={() => (showShortcuts = !showShortcuts)} />
 {/if}
-{#if $assetStore.buckets.length > 0}
+<!-- {#if $assetStore.buckets.length > 0}
   <Scrubber
     invisible={showSkeleton}
     {assetStore}
@@ -781,12 +781,12 @@
     {onScrub}
     {stopScrub}
   />
-{/if}
+{/if} -->
 
 <!-- Right margin MUST be equal to the width of immich-scrubbable-scrollbar -->
 <section
   id="asset-grid"
-  class="scrollbar-hidden h-full overflow-y-auto outline-none {isEmpty ? 'm-0' : 'ml-4 tall:ml-0 mr-[60px]'}"
+  class="scrollbar-hidden h-full overflow-y-auto outline-none m-0"
   tabindex="-1"
   use:resizeObserver={({ height, width }) => ((viewport.width = width), (viewport.height = height))}
   bind:this={element}
